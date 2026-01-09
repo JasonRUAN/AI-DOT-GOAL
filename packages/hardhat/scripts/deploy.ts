@@ -74,6 +74,16 @@ function extractContractNameFromModule(moduleName: string, moduleResult: any): s
 
 // Export the main deployment functionality - now deploys ALL contracts
 export async function deployAllContracts() {
+  // Get deployer account info
+  const [deployer] = await hre.ethers.getSigners();
+  const deployerAddress = await deployer.getAddress();
+  const deployerBalance = await hre.ethers.provider.getBalance(deployerAddress);
+  
+  // Log deployer info
+  console.log('👤 Deployer address:', deployerAddress);
+  console.log('💰 Deployer balance:', hre.ethers.formatEther(deployerBalance), 'ETH');
+  console.log('🌐 Network:', hre.network.name);
+  
   // Log available modules and contracts for transparency
   const availableModules = getAvailableModules();
   const availableContracts = getAvailableContracts();
@@ -129,6 +139,7 @@ export async function deployAllContracts() {
       const actualContractName = extractContractNameFromModule(contractName, deploymentResult);
       
       console.log(`✅ ${actualContractName} deployed to: ${contractAddress}`);
+      console.log(`👤 Contract owner: ${deployerAddress}`);
       
       // Store deployment info
       deployedContracts[actualContractName] = contractAddress;

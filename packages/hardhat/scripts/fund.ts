@@ -45,7 +45,7 @@ mapAccount.signSubmitAndWatch(alice).subscribe({
 })
 
 // Send DOT to hardhat account 0 of type Address20. account 0 is the named account 'deployer'
-const DEPLOYER = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+const DEPLOYER = "0x10636e1e5A2AfCA446937F9539bE43c1eE4F03C4"
 const call = api.tx.Revive.call({
   dest: MultiAddress.Address20(DEPLOYER),
   value: 100n ** 10n,
@@ -73,7 +73,7 @@ transfer.signSubmitAndWatch(alice).subscribe({
 })
 // Send DOT to hardhat account 0 of type Address20. account 0 is the named account 'deployer'
 // create the transaction sending Bob some assets
-const DEPLOYER = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+const DEPLOYER = "0x10636e1e5A2AfCA446937F9539bE43c1eE4F03C4"
 const transfer = api.tx.Balances.transfer_allow_death({
   dest: MultiAddress.Address20(DEPLOYER),
   value: 100n ** 10n,
