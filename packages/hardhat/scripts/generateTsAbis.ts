@@ -18,7 +18,7 @@ const generatedContractComment = `
 `;
 
 const DEPLOYMENTS_DIR = "./deployments";
-const ARTIFACTS_DIR = "./artifacts-pvm";
+const ARTIFACTS_DIR = "./artifacts";
 
 function getDirectories(path: string) {
   return fs
