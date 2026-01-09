@@ -32,9 +32,10 @@ task("deploy").setAction(async (args, hre, runSuper) => {
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: '0.8.28',
-  // npm Compiler
+  // resolc Compiler configuration
   resolc: {
-    compilerSource: 'npm',
+    compilerSource: 'binary',
+    version: '0.1.3',
     settings: {
       optimizer: {
         enabled: true,
