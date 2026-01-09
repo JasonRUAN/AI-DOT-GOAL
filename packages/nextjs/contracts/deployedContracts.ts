@@ -6,8 +6,992 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   420420420: {
+    AIGoal: {
+      address: "0x4C198DC069aD246Efcfe65E312c348C71d1FDBc4",
+      abi: [
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "agentId",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "agentName",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "characterJson",
+              type: "string",
+            },
+          ],
+          name: "AgentCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "agentId",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "characterJson",
+              type: "string",
+            },
+          ],
+          name: "AgentUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "commentId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "content",
+              type: "string",
+            },
+          ],
+          name: "CommentCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "completer",
+              type: "address",
+            },
+          ],
+          name: "GoalCompleted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "title",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "address[]",
+              name: "witnesses",
+              type: "address[]",
+            },
+          ],
+          name: "GoalCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "failer",
+              type: "address",
+            },
+          ],
+          name: "GoalFailed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "updateId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "content",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "progressPercentage",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "proofFileBlobId",
+              type: "string",
+            },
+          ],
+          name: "ProgressUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "witness",
+              type: "address",
+            },
+          ],
+          name: "WitnessConfirmed",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "activeGoals",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          name: "agents",
+          outputs: [
+            {
+              internalType: "string",
+              name: "agentId",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "agentName",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "characterJson",
+              type: "string",
+            },
+            {
+              internalType: "bool",
+              name: "exists",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "aigToken",
+          outputs: [
+            {
+              internalType: "contract AIGToken",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+          ],
+          name: "completeGoal",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "completedGoals",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+          ],
+          name: "confirmWitness",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "agentId",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "agentName",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "characterJson",
+              type: "string",
+            },
+          ],
+          name: "createAgent",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "content",
+              type: "string",
+            },
+          ],
+          name: "createComment",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "title",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "aiSuggestion",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "deadline",
+              type: "uint256",
+            },
+            {
+              internalType: "address[]",
+              name: "witnesses",
+              type: "address[]",
+            },
+          ],
+          name: "createGoal",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+          ],
+          name: "failGoal",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "failedGoals",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getActiveGoals",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "agentId",
+              type: "string",
+            },
+          ],
+          name: "getAgent",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "commentId",
+              type: "uint256",
+            },
+          ],
+          name: "getComment",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "content",
+              type: "string",
+            },
+            {
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "createdAt",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getCompletedGoals",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getFailedGoals",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+          ],
+          name: "getGoal",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "id",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "title",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "aiSuggestion",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "address",
+                  name: "creator",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "amount",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint8",
+                  name: "status",
+                  type: "uint8",
+                },
+                {
+                  internalType: "uint256",
+                  name: "createdAt",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "deadline",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address[]",
+                  name: "witnesses",
+                  type: "address[]",
+                },
+                {
+                  internalType: "address[]",
+                  name: "confirmations",
+                  type: "address[]",
+                },
+                {
+                  internalType: "uint256",
+                  name: "progressPercentage",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "commentCounter",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "progressUpdateCounter",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct AIGoal.GoalInfo",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "updateId",
+              type: "uint256",
+            },
+          ],
+          name: "getProgressUpdate",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "content",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "proofFileBlobId",
+              type: "string",
+            },
+            {
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "createdAt",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getTokenAddress",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getTokenBalance",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getTokenInfo",
+          outputs: [
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "symbol",
+              type: "string",
+            },
+            {
+              internalType: "uint8",
+              name: "decimals",
+              type: "uint8",
+            },
+            {
+              internalType: "uint256",
+              name: "totalSupply",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getUserGoals",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "witness",
+              type: "address",
+            },
+          ],
+          name: "getWitnessGoals",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "goalCount",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "goalToAgent",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "goals",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "title",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "aiSuggestion",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+            {
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint8",
+              name: "status",
+              type: "uint8",
+            },
+            {
+              internalType: "uint256",
+              name: "createdAt",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "deadline",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "commentCounter",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "progressPercentage",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "progressUpdateCounter",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "characterJson",
+              type: "string",
+            },
+          ],
+          name: "updateAgent",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "goalId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "content",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "progressPercentage",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "proofFileBlobId",
+              type: "string",
+            },
+          ],
+          name: "updateProgress",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "userGoals",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "witnessGoals",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
     YourContract: {
-      address: "0xB2CF8DA720cEC811fAd3dcb79b994c7dDbC02E25",
+      address: "0x04b1C6928A0D8a289449605C18CE385173929ad7",
       abi: [
         {
           inputs: [
