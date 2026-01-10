@@ -69,8 +69,8 @@ export function GoalDetail({ id }: GoalDetailProps) {
     const [allWitnessesConfirmed, setAllWitnessesConfirmed] = useState(false);
     const goalId = Number(id);
 
-    const { mutate: createComment, isPending: isSubmittingComment } =
-        useCreateComment();
+    const createCommentMutation = useCreateComment();
+    const { mutate: createComment, isPending: isSubmittingComment, isConfirming } = createCommentMutation;
 
     const { mutate: confirmWitness, isPending: isConfirmingWitness } =
         useConfirmWitness();
@@ -106,6 +106,23 @@ export function GoalDetail({ id }: GoalDetailProps) {
             setLocalComments([...goalComments]);
         }
     }, [goalComments]);
+
+    // 当交易确认成功后显示成功消息
+    useEffect(() => {
+        // 只有在之前处于确认中状态，且现在确认完成（不再 pending 和 confirming）时才显示成功消息
+        if (createCommentMutation.isSuccess && !createCommentMutation.isPending && !isConfirming) {
+            toast.success(
+                language === "zh"
+                    ? "评论发送成功"
+                    : "Comment sent successfully",
+            );
+            setCommentText("");
+            
+            // 后台静默刷新数据
+            refetchGoal?.();
+            refetchComments();
+        }
+    }, [createCommentMutation.isSuccess, createCommentMutation.isPending, isConfirming, language, refetchGoal, refetchComments]);
 
     // 当远程进度更新数据更新时，更新本地进度更新状态
     useEffect(() => {
@@ -204,21 +221,6 @@ export function GoalDetail({ id }: GoalDetailProps) {
                 content: commentText.trim(),
             },
             {
-                onSuccess: () => {
-                    toast.success(
-                        language === "zh"
-                            ? "评论发送成功"
-                            : "Comment sent successfully",
-                    );
-
-                    // 将新评论添加到本地评论列表
-                    setLocalComments((prev) => [...prev]);
-                    setCommentText("");
-
-                    // 后台静默刷新数据
-                    refetchGoal?.();
-                    refetchComments();
-                },
                 onError: (error) => {
                     toast.error(
                         language === "zh"
@@ -903,11 +905,10 @@ export function GoalDetail({ id }: GoalDetailProps) {
                                     }
                                 >
                                     {isSubmittingComment ? (
-                                        language === "zh" ? (
-                                            "发送中..."
-                                        ) : (
-                                            "Sending..."
-                                        )
+                                        <>
+                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                                            {language === "zh" ? "确认中..." : "Confirming..."}
+                                        </>
                                     ) : (
                                         <>
                                             <MessageSquare className="h-4 w-4 mr-2" />{" "}
