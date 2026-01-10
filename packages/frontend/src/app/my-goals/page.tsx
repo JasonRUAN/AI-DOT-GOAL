@@ -37,7 +37,9 @@ export default function MyGoalsPage() {
 
     const handleRefresh = async () => {
         setIsRefreshing(true);
-        await refetch();
+        if (refetch) {
+            await refetch();
+        }
         setTimeout(() => setIsRefreshing(false), 500);
     };
 

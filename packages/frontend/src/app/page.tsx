@@ -181,7 +181,7 @@ export default function Home() {
                 </div>
                 <p className="mt-6 text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
                     {language === "zh"
-                        ? "通过AI规划、质押机制、社交见证，让你的每一个目标都能顺利达成"
+                        ? "通过AI规划、质押机制、社交见证，从关键点（DOT）到大目标（GOAL），让你的每一个目标都能顺利达成"
                         : "Achieve your goals with AI planning, staking mechanism and social witness"}
                 </p>
                 <div className="mt-10 flex flex-wrap gap-4 justify-center">
