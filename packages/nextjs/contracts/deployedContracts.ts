@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   420420422: {
     AIGoal: {
-      address: "0xdEfBd1911F12EeE1d65Ea0AdF07A1B2E1a5C1C8C",
+      address: "0xA60F42CC7e88d2D7B1F1775866713e7e844B4cB1",
       abi: [
         {
           inputs: [],
@@ -991,7 +991,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     YourContract: {
-      address: "0xf4913fFa31ea2006416e63831025CA7A3BdDbC25",
+      address: "0x8f6911645B2332471A61D9d029b3d865F762e686",
       abi: [
         {
           inputs: [
