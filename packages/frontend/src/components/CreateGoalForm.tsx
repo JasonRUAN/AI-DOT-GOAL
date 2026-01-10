@@ -36,8 +36,9 @@ import { format } from "date-fns";
 import { CalendarIcon, Plus, X } from "lucide-react";
 import { useCreateGoal } from "@/mutations/create_goal";
 import { useQueryClient } from "@tanstack/react-query";
-import { CONSTANTS, QueryKey } from "@/constants";
+import { CONSTANTS } from "@/constants";
 import { useLanguage } from "@/providers/LanguageProvider";
+import toast from "react-hot-toast";
 
 export function CreateGoalForm() {
     const router = useRouter();
@@ -46,7 +47,12 @@ export function CreateGoalForm() {
     const [witnesses, setWitnesses] = useState<string[]>([]);
     const [newWitness, setNewWitness] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStage, setSubmitStage] = useState<
+        "idle" | "signing" | "confirming" | "success"
+    >("idle");
+
+    // 使用新的 mutation API
+    const { mutation: createGoalMutation, isConfirming, isConfirmed } = useCreateGoal();
 
     // 根据当前语言创建表单验证架构
     const getFormSchema = () =>
@@ -107,7 +113,31 @@ export function CreateGoalForm() {
 
     const formSchema = getFormSchema();
 
-    const { mutate: createGoalMutation } = useCreateGoal();
+    // 监听交易确认状态
+    useEffect(() => {
+        if (isConfirmed) {
+            // 交易确认成功
+            setSubmitStage("success");
+            toast.success(
+                language === "zh"
+                    ? "🎉 目标创建成功！正在跳转..."
+                    : "🎉 Goal created successfully! Redirecting...",
+                { duration: 2000 }
+            );
+
+            // 使缓存失效
+            queryClient.invalidateQueries({
+                queryKey: ["readContract"],
+            });
+
+            // 延迟跳转，让用户看到成功提示
+            setTimeout(() => {
+                router.push("/my-goals");
+            }, 1000);
+        }
+    }, [isConfirmed, language, router, queryClient]);
+
+    const { mutate: createGoalMutate } = createGoalMutation;
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -126,56 +156,48 @@ export function CreateGoalForm() {
     }, [language, form]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // console.log(values);
-        setIsSubmitting(true);
+        setSubmitStage("signing");
+
         const goalInfo = {
             title: values.title,
             description: values.description,
             ai_suggestion: values.aiSuggestion,
-            deadline: values.endDate.getTime(), // 转换为时间戳
-            amount: parseFloat(values.stake), // 转换为数字
+            deadline: values.endDate.getTime(),
+            amount: parseFloat(values.stake),
             witnesses: values.witnesses,
         };
 
-        createGoalMutation(goalInfo, {
-            onSuccess: async () => {
+        createGoalMutate(goalInfo, {
+            onSuccess: (txHash) => {
+                console.log("✅ 交易已提交:", txHash);
+                setSubmitStage("confirming");
+
+                // 显示确认中提示
+                toast.success(
+                    language === "zh"
+                        ? "📝 交易已提交，等待区块链确认..."
+                        : "📝 Transaction submitted, waiting for confirmation...",
+                    { duration: 3000 }
+                );
+
                 // 重置表单
                 form.reset();
                 setWitnesses([]);
-
-                // 使相关查询缓存失效，确保页面能获取最新数据
-                await Promise.all([
-                    // 无效化自定义查询
-                    queryClient.invalidateQueries({
-                        queryKey: [QueryKey.GetMultipleGoalsQueryKey],
-                    }),
-                    queryClient.invalidateQueries({
-                        queryKey: [QueryKey.GetMyGoalsQueryKey],
-                    }),
-                    // 无效化 wagmi 的 readContract 查询（关键！）
-                    queryClient.invalidateQueries({
-                        queryKey: ["readContract"],
-                    }),
-                ]);
-
-                // 等待查询重新获取数据
-                await queryClient.refetchQueries({
-                    queryKey: [QueryKey.GetMyGoalsQueryKey],
-                });
-
-                setIsSubmitting(false);
-
-                // 跳转到我的目标页面
-                router.push("/my-goals");
             },
             onError: (error) => {
                 console.error(
                     language === "zh"
                         ? "创建目标失败:"
                         : "Failed to create goal:",
-                    error,
+                    error
                 );
-                setIsSubmitting(false);
+                setSubmitStage("idle");
+                
+                toast.error(
+                    language === "zh"
+                        ? "❌ 创建目标失败，请重试"
+                        : "❌ Failed to create goal, please try again"
+                );
             },
         });
     }
@@ -560,15 +582,32 @@ export function CreateGoalForm() {
                         <Button
                             type="submit"
                             className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
-                            disabled={isSubmitting}
+                            disabled={submitStage !== "idle" || isConfirming}
                         >
-                            {isSubmitting ? (
+                            {submitStage === "signing" ? (
                                 <div className="flex items-center justify-center">
                                     <div className="h-5 w-5 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
                                     <span>
                                         {language === "zh"
-                                            ? "提交中..."
-                                            : "Submitting..."}
+                                            ? "请在钱包中确认..."
+                                            : "Confirm in wallet..."}
+                                    </span>
+                                </div>
+                            ) : submitStage === "confirming" || isConfirming ? (
+                                <div className="flex items-center justify-center">
+                                    <div className="h-5 w-5 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                    <span>
+                                        {language === "zh"
+                                            ? "等待区块链确认..."
+                                            : "Waiting for confirmation..."}
+                                    </span>
+                                </div>
+                            ) : submitStage === "success" ? (
+                                <div className="flex items-center justify-center">
+                                    <span>
+                                        {language === "zh"
+                                            ? "✅ 创建成功！"
+                                            : "✅ Created successfully!"}
                                     </span>
                                 </div>
                             ) : language === "zh" ? (

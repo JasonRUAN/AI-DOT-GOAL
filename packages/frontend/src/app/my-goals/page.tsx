@@ -3,7 +3,7 @@
 import { GoalCard } from "@/components/GoalCard";
 import { Button } from "@/components/ui/button";
 import { useGetMyGoals } from "@/hooks/useGetMyGoals";
-import { Plus } from "lucide-react";
+import { Plus, RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
@@ -13,8 +13,9 @@ export default function MyGoalsPage() {
     const router = useRouter();
     const { t, language } = useLanguage();
 
-    const { data: goals, isLoading } = useGetMyGoals();
+    const { data: goals, isLoading, refetch } = useGetMyGoals();
     const [activeTab, setActiveTab] = useState("active");
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     console.log(">>>AAA", goals);
 
@@ -34,10 +35,34 @@ export default function MyGoalsPage() {
         }
     });
 
+    const handleRefresh = async () => {
+        setIsRefreshing(true);
+        await refetch();
+        setTimeout(() => setIsRefreshing(false), 500);
+    };
+
     return (
         <div className="container mx-auto py-8 px-4">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">{t("myGoals")}</h1>
+                <div className="flex items-center gap-3">
+                    <h1 className="text-3xl font-bold">{t("myGoals")}</h1>
+                    <Button
+                        onClick={handleRefresh}
+                        variant="ghost"
+                        size="icon"
+                        disabled={isRefreshing}
+                        className="relative"
+                        title={
+                            language === "zh"
+                                ? "刷新目标列表"
+                                : "Refresh goal list"
+                        }
+                    >
+                        <RefreshCw
+                            className={`h-5 w-5 ${isRefreshing ? "animate-spin" : ""}`}
+                        />
+                    </Button>
+                </div>
                 <Button
                     onClick={() => router.push("/create")}
                     className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
@@ -65,8 +90,13 @@ export default function MyGoalsPage() {
             </Tabs>
 
             {isLoading ? (
-                <div className="flex justify-center items-center min-h-[200px]">
+                <div className="flex flex-col justify-center items-center min-h-[200px] gap-3">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {language === "zh"
+                            ? "正在加载目标列表..."
+                            : "Loading goals..."}
+                    </p>
                 </div>
             ) : filteredGoals?.length === 0 ? (
                 <div className="text-center py-12">
@@ -90,10 +120,10 @@ export default function MyGoalsPage() {
                     <p className="text-gray-500 dark:text-gray-400 mb-4">
                         {activeTab === "all"
                             ? language === "zh"
-                                ? "创建你的第一个目标，开始你的自我提升之旅"
+                                ? "创建你的第一个目标,开始你的自我提升之旅"
                                 : "Create your first goal and start your self-improvement journey"
                             : language === "zh"
-                              ? "继续努力，创建新的目标"
+                              ? "继续努力,创建新的目标"
                               : "Keep going, create new goals"}
                     </p>
                     <Button

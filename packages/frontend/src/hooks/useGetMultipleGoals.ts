@@ -31,6 +31,11 @@ export function useGetMultipleGoals({ goalIds }: { goalIds: string[] }) {
             return Promise.all(promises);
         },
         enabled: goalIds.length > 0 && !!publicClient,
+        staleTime: 2000, // 2秒内使用缓存，避免过于频繁请求
+        refetchOnMount: true, // 组件挂载时刷新
+        refetchOnWindowFocus: true, // 窗口聚焦时刷新
+        refetchInterval: 8000, // 每8秒自动轮询一次（从5秒改为8秒，进一步减少请求）
+        refetchIntervalInBackground: false, // 后台不轮询
         // select: (data: (GetGoalReturnType | null)[]) => {
         //     return data.map((goalData) => {
         //         if (!goalData) return null;

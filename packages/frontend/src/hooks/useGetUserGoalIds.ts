@@ -27,6 +27,8 @@ export function useGetUserGoalIds() {
             staleTime: 0, // 始终视为过期，强制刷新
             refetchOnMount: true, // 组件挂载时刷新
             refetchOnWindowFocus: true, // 窗口聚焦时刷新
+            refetchInterval: 5000, // 每5秒自动轮询一次（从3秒改为5秒，减少请求频率）
+            refetchIntervalInBackground: false, // 后台不轮询
             retry: 3, // 重试3次
             retryDelay: 1000, // 重试延迟1秒
         },
