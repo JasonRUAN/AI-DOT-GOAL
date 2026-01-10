@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,8 +44,8 @@ export function ProgressUpdateDialog({
     const [isUploading, setIsUploading] = useState(false);
     const [isFileUploaded, setIsFileUploaded] = useState(false);
 
-    const { mutate: updateProgress, isPending: isUpdatingProgress } =
-        useUpdateProgress();
+    const updateProgressMutation = useUpdateProgress();
+    const { mutate: updateProgress, isPending: isUpdatingProgress, isConfirming } = updateProgressMutation;
 
     // 当打开进度对话框时，初始化进度值为当前进度
     const handleDialogOpenChange = (open: boolean) => {
@@ -55,6 +55,26 @@ export function ProgressUpdateDialog({
             setIsFileUploaded(false);
         }
     };
+
+    // 当交易确认成功后执行回调
+    useEffect(() => {
+        if (updateProgressMutation.isSuccess && !updateProgressMutation.isPending && !isConfirming) {
+            toast.success(
+                language === "zh"
+                    ? "进度更新成功"
+                    : "Progress updated successfully",
+            );
+            setProgressDialogOpen(false);
+            setProgressContent("");
+            setProofFile(null);
+            setProofBlobId("");
+
+            // 通知父组件进度已更新
+            if (onProgressUpdated) {
+                onProgressUpdated();
+            }
+        }
+    }, [updateProgressMutation.isSuccess, updateProgressMutation.isPending, isConfirming, language, onProgressUpdated]);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -118,22 +138,6 @@ export function ProgressUpdateDialog({
                 proofFileBlobId: proofBlobId,
             },
             {
-                onSuccess: () => {
-                    toast.success(
-                        language === "zh"
-                            ? "进度更新成功"
-                            : "Progress updated successfully",
-                    );
-                    setProgressDialogOpen(false);
-                    setProgressContent("");
-                    setProofFile(null);
-                    setProofBlobId("");
-
-                    // 通知父组件进度已更新
-                    if (onProgressUpdated) {
-                        onProgressUpdated();
-                    }
-                },
                 onError: (error) => {
                     toast.error(
                         language === "zh"
@@ -243,13 +247,16 @@ export function ProgressUpdateDialog({
                                 }
                                 className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
                             >
-                                {isUpdatingProgress
-                                    ? language === "zh"
-                                        ? "更新中..."
-                                        : "Updating..."
-                                    : language === "zh"
-                                      ? "提交更新"
-                                      : "Submit Update"}
+                                {isUpdatingProgress ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                                        {language === "zh" ? "确认中..." : "Confirming..."}
+                                    </>
+                                ) : (
+                                    language === "zh"
+                                        ? "提交更新"
+                                        : "Submit Update"
+                                )}
                             </Button>
                         </DialogFooter>
                     </DialogContent>
