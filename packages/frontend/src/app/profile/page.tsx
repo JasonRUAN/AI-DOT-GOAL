@@ -53,8 +53,8 @@ export default function ProfilePage() {
 
     const totalRewards = calculateTotalRewards();
 
-    // 获取MON余额
-    const { data: monBalance } = useBalance({
+    // 获取PAS余额
+    const { data: balance } = useBalance({
         address: address,
     });
 
@@ -239,10 +239,10 @@ export default function ProfilePage() {
                             <div className="bg-gray-50 p-4 rounded-lg">
                                 <h3 className="text-lg font-medium">PAS</h3>
                                 <p className="text-3xl font-bold text-primary">
-                                    {monBalance
+                                    {balance
                                         ? (() => {
                                               const num =
-                                                  Number(monBalance.value) /
+                                                  Number(balance.value) /
                                                   10 ** 18;
                                               if (num === 0) return "0";
                                               if (num >= 0.01)
