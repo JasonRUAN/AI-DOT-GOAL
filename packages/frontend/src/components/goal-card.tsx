@@ -26,9 +26,11 @@ export function GoalCard({ goal }: GoalCardProps) {
                 <div className="flex justify-between items-start">
                     <CardTitle className="text-xl">{goal.title}</CardTitle>
                     <Badge
-                        variant={
-                            goal.status === "已完成" ? "secondary" : "default"
-                        }
+                        className={`text-white ${
+                            goal.status === "已完成" || goal.status === "Completed"
+                                ? "bg-blue-500"
+                                : "bg-green-500"
+                        }`}
                     >
                         {goal.status}
                     </Badge>

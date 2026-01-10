@@ -94,7 +94,7 @@ export default function Home() {
         zh: [
             {
                 id: "goal-1",
-                title: "示例：每天跑步5公里",
+                title: "每天跑步5公里",
                 duration: "30天",
                 stake: "1 PAS",
                 witnesses: 3,
@@ -103,7 +103,7 @@ export default function Home() {
             },
             {
                 id: "goal-2",
-                title: "示例：完成第19期Polkadot技术开发课程",
+                title: "完成第19期Polkadot技术开发课程",
                 duration: "60天",
                 stake: "2 PAS",
                 witnesses: 2,
@@ -112,7 +112,7 @@ export default function Home() {
             },
             {
                 id: "goal-3",
-                title: "示例：减重20公斤",
+                title: "减重20公斤",
                 duration: "90天",
                 stake: "3 PAS",
                 witnesses: 4,
@@ -123,7 +123,7 @@ export default function Home() {
         en: [
             {
                 id: "goal-1",
-                title: "Example: Run 5km every day",
+                title: "Run 5km every day",
                 duration: "30 days",
                 stake: "1 PAS",
                 witnesses: 3,
@@ -132,7 +132,7 @@ export default function Home() {
             },
             {
                 id: "goal-2",
-                title: "Example: Complete 19th Polkadot Development Course",
+                title: "Complete 19th Polkadot Development Course",
                 duration: "60 days",
                 stake: "2 PAS",
                 witnesses: 2,
@@ -141,7 +141,7 @@ export default function Home() {
             },
             {
                 id: "goal-3",
-                title: "Example: Lose 20kg",
+                title: "Lose 20kg",
                 duration: "90 days",
                 stake: "3 PAS",
                 witnesses: 4,
