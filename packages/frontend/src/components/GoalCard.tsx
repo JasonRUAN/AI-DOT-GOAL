@@ -94,7 +94,7 @@ export function GoalCard({ goal }: { goal: GoalDetail }) {
                         <Coins className="h-4 w-4" />
                         <span>
                             {language === "zh" ? "保证金: " : "Stake: "}
-                            {Number(goal.amount) / 10 ** 18} MINI
+                            {Number(goal.amount) / 10 ** 18} PAS
                         </span>
                     </div>
                     <div className="flex items-center gap-1">

@@ -70,7 +70,7 @@ export default function Sidebar() {
                 {/* Logo 区域 */}
                 <div className="flex items-center justify-center h-16 border-b border-gray-200">
                     <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 text-3xl font-bold">
-                        AI GOAL
+                        AI DOT GOAL
                     </h1>
                 </div>
 
@@ -122,7 +122,7 @@ export default function Sidebar() {
             {/* Logo 区域 */}
             <div className="flex items-center justify-center h-16 border-b border-gray-200">
                 <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 text-3xl font-bold">
-                    AI GOAL
+                    AI DOT GOAL
                 </h1>
             </div>
 

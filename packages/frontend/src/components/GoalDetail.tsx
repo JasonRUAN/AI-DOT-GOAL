@@ -372,7 +372,7 @@ export function GoalDetail({ id }: GoalDetailProps) {
                                         {language === "zh" ? "保证金" : "Stake"}
                                     </span>
                                     <span className="font-medium">
-                                        {Number(goalData.amount) / 10 ** 18} MINI
+                                        {Number(goalData.amount) / 10 ** 18} PAS
                                     </span>
                                 </div>
                                 <div className="flex flex-col items-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">

@@ -53,7 +53,7 @@ const translations: Translations = {
         loading: "加载中...",
         success: "成功",
         error: "错误",
-        welcome: "欢迎使用 AI GOAL",
+        welcome: "欢迎使用 AI DOT GOAL",
         back: "返回",
         next: "下一步",
 
@@ -144,7 +144,7 @@ const translations: Translations = {
         loading: "Loading...",
         success: "Success",
         error: "Error",
-        welcome: "Welcome to AI GOAL",
+        welcome: "Welcome to AI DOT GOAL",
         back: "Back",
         next: "Next",
 

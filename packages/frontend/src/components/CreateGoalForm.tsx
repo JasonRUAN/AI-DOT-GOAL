@@ -465,8 +465,8 @@ export function CreateGoalForm() {
                                 <FormItem>
                                     <FormLabel>
                                         {language === "zh"
-                                            ? "保证金 (MINI)"
-                                            : "Stake (MINI)"}
+                                            ? "保证金 (PAS)"
+                                            : "Stake (PAS)"}
                                     </FormLabel>
                                     <FormControl>
                                         <Input

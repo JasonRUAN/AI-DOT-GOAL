@@ -12,7 +12,7 @@ export const localNode = defineChain({
     nativeCurrency: {
         decimals: 18,
         name: "Local DOT",
-        symbol: "MINI",
+        symbol: "PAS",
     },
     rpcUrls: {
         default: { http: ["http://localhost:8545"] },

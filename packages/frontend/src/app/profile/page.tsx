@@ -237,7 +237,7 @@ export default function ProfilePage() {
                     <CardContent>
                         <div className="space-y-4">
                             <div className="bg-gray-50 p-4 rounded-lg">
-                                <h3 className="text-lg font-medium">MINI</h3>
+                                <h3 className="text-lg font-medium">PAS</h3>
                                 <p className="text-3xl font-bold text-primary">
                                     {monBalance
                                         ? (() => {
