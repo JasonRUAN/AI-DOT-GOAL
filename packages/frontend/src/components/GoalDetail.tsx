@@ -12,6 +12,12 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useGetOneGoal } from "@/hooks/useGetOneGoal";
 import {
     GoalDetail as GoalDetailType,
@@ -165,6 +171,9 @@ export function GoalDetail({ id }: GoalDetailProps) {
 
     const witnesses = goalData.witnesses;
     const isWitness = witnesses.some((witness) => witness === address);
+
+    // 检查进度是否已达到100%
+    const isProgressComplete = Number(goalData.progressPercentage) >= 100;
 
     console.log(`isCreator: ${isCreator}, isWitness: ${isWitness}`);
 
@@ -554,51 +563,99 @@ export function GoalDetail({ id }: GoalDetailProps) {
                                         {isCreator &&
                                             allWitnessesConfirmed &&
                                             goalData.status === 0 && (
-                                                <Button
-                                                    className="w-full bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700"
-                                                    onClick={handleCompleteGoal}
-                                                    disabled={isCompletingGoal}
-                                                >
-                                                    {isCompletingGoal ? (
-                                                        language === "zh" ? (
-                                                            "正在完成..."
-                                                        ) : (
-                                                            "Completing..."
-                                                        )
-                                                    ) : (
-                                                        <>
-                                                            <Check className="mr-2 h-4 w-4" />{" "}
-                                                            {language === "zh"
-                                                                ? "完成目标"
-                                                                : "Complete Goal"}
-                                                        </>
-                                                    )}
-                                                </Button>
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <div className="w-full">
+                                                                <Button
+                                                                    className={`w-full ${
+                                                                        isProgressComplete
+                                                                            ? "bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700"
+                                                                            : "bg-gray-400 cursor-not-allowed"
+                                                                    }`}
+                                                                    onClick={handleCompleteGoal}
+                                                                    disabled={
+                                                                        isCompletingGoal ||
+                                                                        !isProgressComplete
+                                                                    }
+                                                                >
+                                                                    {isCompletingGoal ? (
+                                                                        language === "zh" ? (
+                                                                            "正在完成..."
+                                                                        ) : (
+                                                                            "Completing..."
+                                                                        )
+                                                                    ) : (
+                                                                        <>
+                                                                            <Check className="mr-2 h-4 w-4" />{" "}
+                                                                            {language === "zh"
+                                                                                ? "完成目标"
+                                                                                : "Complete Goal"}
+                                                                        </>
+                                                                    )}
+                                                                </Button>
+                                                            </div>
+                                                        </TooltipTrigger>
+                                                        {!isProgressComplete && (
+                                                            <TooltipContent>
+                                                                <p>
+                                                                    {language === "zh"
+                                                                        ? `进度需达到100%才能完成目标 (当前: ${goalData.progressPercentage}%)`
+                                                                        : `Progress must reach 100% to complete goal (current: ${goalData.progressPercentage}%)`}
+                                                                </p>
+                                                            </TooltipContent>
+                                                        )}
+                                                    </Tooltip>
+                                                </TooltipProvider>
                                             )}
                                     </>
                                 )}
 
                                 {isWitness && !hasConfirmed && (
-                                    <Button
-                                        className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
-                                        onClick={handleConfirmWitness}
-                                        disabled={isConfirmingWitness}
-                                    >
-                                        {isConfirmingWitness ? (
-                                            language === "zh" ? (
-                                                "确认中..."
-                                            ) : (
-                                                "Confirming..."
-                                            )
-                                        ) : (
-                                            <>
-                                                <ThumbsUp className="mr-2 h-4 w-4" />{" "}
-                                                {language === "zh"
-                                                    ? "确认完成"
-                                                    : "Confirm Completion"}
-                                            </>
-                                        )}
-                                    </Button>
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <div className="w-full">
+                                                    <Button
+                                                        className={`w-full ${
+                                                            isProgressComplete
+                                                                ? "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                                                                : "bg-gray-400 cursor-not-allowed"
+                                                        }`}
+                                                        onClick={handleConfirmWitness}
+                                                        disabled={
+                                                            isConfirmingWitness ||
+                                                            !isProgressComplete
+                                                        }
+                                                    >
+                                                        {isConfirmingWitness ? (
+                                                            language === "zh" ? (
+                                                                "确认中..."
+                                                            ) : (
+                                                                "Confirming..."
+                                                            )
+                                                        ) : (
+                                                            <>
+                                                                <ThumbsUp className="mr-2 h-4 w-4" />{" "}
+                                                                {language === "zh"
+                                                                    ? "确认完成"
+                                                                    : "Confirm Completion"}
+                                                            </>
+                                                        )}
+                                                    </Button>
+                                                </div>
+                                            </TooltipTrigger>
+                                            {!isProgressComplete && (
+                                                <TooltipContent>
+                                                    <p>
+                                                        {language === "zh"
+                                                            ? `进度需达到100%才能确认完成 (当前: ${goalData.progressPercentage}%)`
+                                                            : `Progress must reach 100% to confirm completion (current: ${goalData.progressPercentage}%)`}
+                                                    </p>
+                                                </TooltipContent>
+                                            )}
+                                        </Tooltip>
+                                    </TooltipProvider>
                                 )}
                                 {isWitness && hasConfirmed && (
                                     <Button
