@@ -1,10 +1,8 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
@@ -56,13 +54,6 @@ export function GoalCard({ goal }: GoalCardProps) {
                     </div>
                 </div>
             </CardContent>
-            <CardFooter>
-                {/* <Link href={`/goals/${goal.id}`} className="w-full"> */}
-                <Button variant="ghost" className="w-full">
-                    查看详情
-                </Button>
-                {/* </Link> */}
-            </CardFooter>
         </Card>
     );
 }
