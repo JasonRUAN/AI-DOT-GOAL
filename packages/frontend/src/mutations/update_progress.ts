@@ -8,7 +8,7 @@ interface UpdateProgressInfo {
     goalId: number;
     content: string;
     percentage: number;
-    proofFileBlobId: string;
+    proofFileBlobId?: string;
 }
 
 export function useUpdateProgress() {
@@ -37,7 +37,7 @@ export function useUpdateProgress() {
                     info.goalId,
                     info.content,
                     info.percentage,
-                    info.proofFileBlobId,
+                    info.proofFileBlobId || "",
                 ],
             });
 

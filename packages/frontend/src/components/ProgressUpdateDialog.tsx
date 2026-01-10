@@ -42,6 +42,7 @@ export function ProgressUpdateDialog({
     const [proofFile, setProofFile] = useState<File | null>(null);
     const [proofBlobId, setProofBlobId] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [isFileSelected, setIsFileSelected] = useState(false);
     const [isFileUploaded, setIsFileUploaded] = useState(false);
 
     const updateProgressMutation = useUpdateProgress();
@@ -52,6 +53,7 @@ export function ProgressUpdateDialog({
         setProgressDialogOpen(open);
         if (open) {
             setProgressPercentage(currentProgress);
+            setIsFileSelected(false);
             setIsFileUploaded(false);
         }
     };
@@ -68,6 +70,8 @@ export function ProgressUpdateDialog({
             setProgressContent("");
             setProofFile(null);
             setProofBlobId("");
+            setIsFileSelected(false);
+            setIsFileUploaded(false);
 
             // 通知父组件进度已更新
             if (onProgressUpdated) {
@@ -78,9 +82,18 @@ export function ProgressUpdateDialog({
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (!file) return;
+        if (!file) {
+            // 用户清空了文件选择
+            setProofFile(null);
+            setProofBlobId("");
+            setIsFileSelected(false);
+            setIsFileUploaded(false);
+            return;
+        }
 
         setProofFile(file);
+        setIsFileSelected(true);
+        setIsFileUploaded(false);
         setIsUploading(true);
 
         try {
@@ -115,6 +128,9 @@ export function ProgressUpdateDialog({
                 language === "zh" ? "文件上传失败" : "File upload failed",
             );
             console.error("File upload failed:", error);
+            // 上传失败时重置状态
+            setIsFileSelected(false);
+            setIsFileUploaded(false);
         } finally {
             setIsUploading(false);
         }
@@ -171,8 +187,8 @@ export function ProgressUpdateDialog({
                             </DialogTitle>
                             <DialogDescription>
                                 {language === "zh"
-                                    ? "请描述您的进度情况并上传相关证明"
-                                    : "Please describe your progress and upload relevant proof"}
+                                    ? "请描述您的进度情况，可选上传相关证明"
+                                    : "Please describe your progress, optionally upload relevant proof"}
                             </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4 py-4">
@@ -217,8 +233,8 @@ export function ProgressUpdateDialog({
                             <div className="space-y-2">
                                 <Label htmlFor="proof">
                                     {language === "zh"
-                                        ? "上传证明"
-                                        : "Upload Proof"}
+                                        ? "上传证明（可选）"
+                                        : "Upload Proof (Optional)"}
                                 </Label>
                                 <div className="flex items-center gap-2">
                                     <Input
@@ -243,11 +259,16 @@ export function ProgressUpdateDialog({
                                 disabled={
                                     isUpdatingProgress ||
                                     !progressContent.trim() ||
-                                    !isFileUploaded
+                                    (isFileSelected && !isFileUploaded)
                                 }
                                 className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
                             >
-                                {isUpdatingProgress ? (
+                                {isUploading ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                                        {language === "zh" ? "上传中..." : "Uploading..."}
+                                    </>
+                                ) : isUpdatingProgress ? (
                                     <>
                                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
                                         {language === "zh" ? "确认中..." : "Confirming..."}
