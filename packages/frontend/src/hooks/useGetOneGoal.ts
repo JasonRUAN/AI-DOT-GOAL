@@ -19,9 +19,9 @@ export function useGetOneGoal({ goalId }: { goalId: number }) {
         isPending,
         hasError: !!error,
         data: data ? {
-            // @ts-expect-error - accessing tuple values dynamically
+            // @ts-ignore
             progressPercentage: data[5],
-            // @ts-expect-error - accessing tuple values dynamically
+            // @ts-ignore
             progressUpdateCounter: data[11],
         } : null,
     });

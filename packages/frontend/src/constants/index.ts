@@ -1,10 +1,10 @@
-export const QueryKey = {
-    GetMyGoalsQueryKey: "GetMyGoalsQueryKey",
-    GetOneGoalQueryKey: "GetOneGoalQueryKey",
-    GetMultipleGoalsQueryKey: "GetMultipleGoalsQueryKey",
-    GetGoalCommentsQueryKey: "GetGoalCommentsQueryKey",
-    GetGoalProgressUpdatesQueryKey: "GetGoalProgressUpdatesQueryKey",
-} as const;
+export enum QueryKey {
+    GetMyGoalsQueryKey = "GetMyGoalsQueryKey",
+    GetOneGoalQueryKey = "GetOneGoalQueryKey",
+    GetMultipleGoalsQueryKey = "GetMultipleGoalsQueryKey",
+    GetGoalCommentsQueryKey = "GetGoalCommentsQueryKey",
+    GetGoalProgressUpdatesQueryKey = "GetGoalProgressUpdatesQueryKey",
+}
 
 export const CONSTANTS = {
     WALRUS: {
