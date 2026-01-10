@@ -75,7 +75,7 @@ export function GoalDetail({ id }: GoalDetailProps) {
     const { mutate: confirmWitness, isPending: isConfirmingWitness } =
         useConfirmWitness();
 
-    const { mutate: completeGoal, isPending: isCompletingGoal } =
+    const { mutate: completeGoal, isPending: isCompletingGoal, isConfirmed: isCompleteGoalConfirmed } =
         useCompleteGoal();
 
     // 从API获取goalAgentId
@@ -159,6 +159,18 @@ export function GoalDetail({ id }: GoalDetailProps) {
             setAllWitnessesConfirmed(allConfirmed);
         }
     }, [data, address]);
+
+    // 当完成目标交易确认后显示成功消息并刷新数据
+    useEffect(() => {
+        if (isCompleteGoalConfirmed) {
+            toast.success(
+                language === "zh"
+                    ? "目标已成功完成！"
+                    : "Goal successfully completed!",
+            );
+            refetchGoal?.(); // 刷新目标数据
+        }
+    }, [isCompleteGoalConfirmed, language, refetchGoal]);
 
     if (error) {
         toast.error(`get goal failed: ${error.message}`);
@@ -272,14 +284,6 @@ export function GoalDetail({ id }: GoalDetailProps) {
     // 处理完成目标按钮点击
     const handleCompleteGoal = () => {
         completeGoal(id, {
-            onSuccess: () => {
-                toast.success(
-                    language === "zh"
-                        ? "目标已成功完成！"
-                        : "Goal successfully completed!",
-                );
-                refetchGoal?.(); // 刷新目标数据
-            },
             onError: (error) => {
                 toast.error(
                     language === "zh"
@@ -582,11 +586,12 @@ export function GoalDetail({ id }: GoalDetailProps) {
                                                                     }
                                                                 >
                                                                     {isCompletingGoal ? (
-                                                                        language === "zh" ? (
-                                                                            "正在完成..."
-                                                                        ) : (
-                                                                            "Completing..."
-                                                                        )
+                                                                        <>
+                                                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                                                                            {language === "zh"
+                                                                                ? "确认中..."
+                                                                                : "Confirming..."}
+                                                                        </>
                                                                     ) : (
                                                                         <>
                                                                             <Check className="mr-2 h-4 w-4" />{" "}
