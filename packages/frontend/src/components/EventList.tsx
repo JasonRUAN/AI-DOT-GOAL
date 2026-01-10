@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DecodedEvent } from "@/hooks/useGetUserEvents";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { ExternalLink, Coins } from "lucide-react";
+import { CONSTANTS } from "@/constants";
 
 interface EventListProps {
     events: DecodedEvent[];
@@ -237,8 +238,7 @@ export function EventList({ events, maxItems = 10 }: EventListProps) {
                                     </span>
                                 </span>
                                 <a
-                                    // href={`https://sepolia.explorer.testnet.ms/tx/${event.transactionHash}`}
-                                    href="#"
+                                    href={`${CONSTANTS.BLOCK_EXPLORER.TX_URL}/${event.transactionHash}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1 text-blue-500 hover:text-blue-700 hover:underline transition-colors"
